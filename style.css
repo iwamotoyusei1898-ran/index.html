@@ -72,11 +72,24 @@ button:active
   transform: scale(0.95);
 }
 
-.card {
+.card 
+{
   transition: 0.3s;
 }
 
-.card:hover {
+.card:hover 
+{
+  transform: translateY(-10px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
+
+.card 
+{
+  transition: 0.3s;
+}
+
+.card:hover 
+{
   transform: translateY(-10px);
   box-shadow: 0 10px 20px rgba(0,0,0,0.2);
 }
