@@ -1,37 +1,16 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>自己紹介ページ</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
+自己紹介ページ
+岩元優征の自己紹介ページ
 
-    <h1>岩元優征の自己紹介ページ</h1>
-
-    <h2>自己紹介</h2>
-    <p>
         こんにちは。岩元優征です。
         プログラミングを勉強しています。
         XR技術に興味があります！
         ゲームをジャンル幅広く遊んでいます。
         是非一緒にやりましょう。
-    </p>
 
-    <h2>趣味・好きなこと</h2>
-    <ul>
-        <li>ゲーム</li>
-        <li>読書</li>
-        <li>動画鑑賞</li>
-    </ul>
+趣味・好きなこと
 
-    <h2>GitHub</h2>
-    <p>
-        <a href="https://github.com/iwamotoyusei1898-ran">
+ゲーム
+読書
+動画鑑賞
             GitHubプロフィール
-        </a>
-    </p>
 
-</body>
-</html>
