@@ -50,3 +50,33 @@ a:hover
     color: #3e2723;
     text-decoration: underline;
 }
+
+.fade-in {
+  opacity: 0;
+  transform: translateY(50px);
+  transition: all 1s;
+}
+
+.fade-in.show 
+{
+  opacity: 1;
+  transform: translateY(0);
+}
+
+button {
+  transition: 0.2s;
+}
+
+button:active 
+{
+  transform: scale(0.95);
+}
+
+.card {
+  transition: 0.3s;
+}
+
+.card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
