@@ -768,3 +768,19 @@ body.night-mode .forest-light {
         display: none;
     }
 }
+/* 霧の横方向の位置 */
+.fog-layer {
+    left: -30%;
+    right: auto;
+}
+
+/* ホタルより文章を手前に表示 */
+.content-section,
+footer {
+    z-index: 5;
+}
+
+/* ホタルの光を自然になじませる */
+#fireflies {
+    mix-blend-mode: screen;
+}
