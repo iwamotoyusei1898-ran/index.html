@@ -1,37 +1,127 @@
+
 <!DOCTYPE html>
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>自己紹介ページ</title>
+    <title>岩元優征 | My Portfolio</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <h1>岩元優征の自己紹介ページ</h1>
+    <!-- 背景エフェクト -->
+    <canvas id="particles"></canvas>
+    <div class="cursor-glow"></div>
 
-    <h2>自己紹介</h2>
-    <p>
-        こんにちは。岩元優征です。<br>
-        プログラミングを勉強しています。<br>
-        XR技術に興味があります。<br>
-        ゲームを幅広いジャンルで遊んでいます。<br>
-        ぜひ一緒に遊びましょう。
-    </p>
+    <!-- ナビゲーション -->
+    <nav class="navigation">
+        <div class="logo">YUSEI<span>.</span></div>
+        <a href="#home">HOME</a>
+        <a href="#profile">PROFILE</a>
+        <a href="#hobby">HOBBY</a>
+        <a href="#github">GITHUB</a>
+    </nav>
 
-    <h2>趣味・好きなこと</h2>
-    <ul>
-        <li>ゲーム(FPSや,RTSなど）</li>
-        <li>読書（主にミステリー小説）</li>
-        <li>映画鑑賞（最近はMARVELやプレデターシリーズ）</li>
-    </ul>
+    <!-- メイン画面 -->
+    <header id="home" class="hero">
+        <div class="hero-content">
+            <p class="hero-subtitle">WELCOME TO MY WORLD</p>
+            <h1>
+                IWAMOTO<br>
+                <span>YUSEI</span>
+            </h1>
+            <p class="hero-description">
+                Exploring the Future with Technology.
+            </p>
+            <a href="#profile" class="hero-button">
+                DISCOVER MORE ↓
+            </a>
+        </div>
+        <div class="scroll-indicator">
+            SCROLL DOWN
+            <span></span>
+        </div>
+    </header>
 
-    <h2>GitHub</h2>
-    <p>
-        <a href="https://github.com/iwamotoyusei1898-ran" target="_blank">
-            GitHubプロフィール
-        </a>
-    </p>
+    <!-- 自己紹介 -->
+    <section id="profile" class="section fade-in">
+        <p class="section-number">01 / ABOUT ME</p>
+        <h2>自己紹介</h2>
 
+        <div class="glass-card profile-card">
+            <h3>こんにちは。岩元優征です。</h3>
+            <p>
+                プログラミングを勉強しています。<br>
+                XR技術に興味があります。<br>
+                ゲームを幅広いジャンルで遊んでいます。<br>
+                ぜひ一緒に遊びましょう。
+            </p>
+            <div class="tags">
+                <span>PROGRAMMING</span>
+                <span>XR TECHNOLOGY</span>
+                <span>GAMING</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- 趣味 -->
+    <section id="hobby" class="section fade-in">
+        <p class="section-number">02 / MY INTERESTS</p>
+        <h2>趣味・好きなこと</h2>
+
+        <div class="hobby-grid">
+
+            <div class="glass-card hobby-card">
+                <div class="hobby-icon">🎮</div>
+                <h3>GAME</h3>
+                <p>FPSやRTSなど、幅広いジャンルのゲームを遊んでいます。</p>
+                <span class="card-number">01</span>
+            </div>
+
+            <div class="glass-card hobby-card">
+                <div class="hobby-icon">📚</div>
+                <h3>READING</h3>
+                <p>主にミステリー小説を読んでいます。</p>
+                <span class="card-number">02</span>
+            </div>
+
+            <div class="glass-card hobby-card">
+                <div class="hobby-icon">🎬</div>
+                <h3>MOVIES</h3>
+                <p>最近はMARVELやプレデターシリーズを鑑賞しています。</p>
+                <span class="card-number">03</span>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- GitHub -->
+    <section id="github" class="section fade-in">
+        <p class="section-number">03 / MY PROJECTS</p>
+        <h2>GitHub</h2>
+
+        <div class="glass-card github-card">
+            <div class="github-icon">⌘</div>
+            <h3>CHECK MY GITHUB</h3>
+            <p>プログラミングの活動はこちらから。</p>
+
+            <a
+                href="https://github.com/iwamotoyusei1898-ran"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="github-button"
+            >
+                GitHubプロフィールを見る ↗
+            </a>
+        </div>
+    </section>
+
+    <!-- フッター -->
+    <footer>
+        <p>© 2026 IWAMOTO YUSEI</p>
+        <p>DESIGNED WITH PASSION.</p>
+    </footer>
+
+    <script src="script.js"></script>
 </body>
 </html>
