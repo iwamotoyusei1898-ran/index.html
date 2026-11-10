@@ -473,3 +473,42 @@ footer {
 body::before {
     z-index: -1;
 }
+/* 表示レイヤーの修正 */
+body {
+    position: relative;
+    min-height: 100vh;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+#particles {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.cursor-glow {
+    z-index: 0;
+    pointer-events: none;
+}
+
+.hero,
+.section,
+footer,
+.navigation {
+    position: relative;
+    z-index: 2;
+}
+
+/* スクロール表示の修正 */
+.fade-in {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.fade-in.show {
+    opacity: 1;
+    transform: translateY(0);
+}
