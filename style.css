@@ -1,4 +1,3 @@
-
 /* ==============================
    基本設定
 ============================== */
@@ -12,6 +11,10 @@
     --text: #e8e9df;
     --muted: #b5beb0;
     --border: rgba(220, 231, 210, 0.17);
+
+    --daylight-color: rgba(145, 175, 190, 0.08);
+    --sunlight-glow: rgba(175, 205, 210, 0.14);
+    --firefly-opacity: 0;
 }
 
 * {
@@ -22,16 +25,15 @@
 
 html {
     scroll-behavior: smooth;
+    scroll-padding-top: 90px;
 }
 
 body {
+    position: relative;
+    min-width: 320px;
     background: var(--deep);
     color: var(--text);
-    font-family:
-        "Yu Gothic",
-        "Hiragino Kaku Gothic ProN",
-        Meiryo,
-        sans-serif;
+    font-family: "Yu Gothic", "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
     line-height: 1.9;
     overflow-x: hidden;
 }
@@ -46,11 +48,18 @@ a {
     color: var(--deep);
 }
 
+/* ページ全体を覆う時間帯の色 */
+.daylight-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 20;
+    pointer-events: none;
+    background: var(--daylight-color);
+    mix-blend-mode: soft-light;
+    transition: background 1.2s linear;
+}
 
-/* ==============================
-   スクロール進行バー
-============================== */
-
+/* スクロール進行バー */
 .scroll-progress {
     position: fixed;
     top: 0;
@@ -59,38 +68,38 @@ a {
     height: 3px;
     background: var(--sage);
     z-index: 1000;
+    box-shadow: 0 0 10px rgba(182, 197, 169, 0.5);
 }
 
-
-/* ==============================
-   ナビゲーション
-============================== */
-
+/* ナビゲーション */
 .navbar {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
-    padding: 20px 7%;
+    padding: 18px 7%;
     display: flex;
     justify-content: space-between;
     align-items: center;
     z-index: 100;
     background: rgba(20, 37, 30, 0.35);
     backdrop-filter: blur(12px);
-    border-bottom: 1px solid rgba(255,255,255,0.06);
-    transition: background 0.4s ease;
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    transition: background 0.4s ease, padding 0.4s ease;
 }
 
 .navbar.scrolled {
+    padding-top: 13px;
+    padding-bottom: 13px;
     background: rgba(15, 29, 22, 0.92);
 }
 
 .logo {
-    font-size: 18px;
-    font-weight: bold;
-    letter-spacing: 0.12em;
     color: var(--cream);
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
 }
 
 .nav-links {
@@ -101,18 +110,14 @@ a {
 .nav-links a {
     color: var(--muted);
     font-size: 13px;
-    transition: color 0.3s;
+    transition: color 0.3s ease;
 }
 
 .nav-links a:hover {
     color: var(--cream);
 }
 
-
-/* ==============================
-   メインビジュアル
-============================== */
-
+/* メインビジュアル */
 .hero {
     position: relative;
     min-height: 100vh;
@@ -137,8 +142,7 @@ a {
 
 .hero-background {
     z-index: 0;
-    background-image:
-        url("https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=2400&q=85");
+    background-image: url("https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=2400&q=85");
     background-size: cover;
     background-position: center;
     transform: scale(1.12);
@@ -146,7 +150,7 @@ a {
 }
 
 .forest-layer {
-    inset: -5%;
+    inset: -6%;
     background-size: cover;
     background-position: center;
     will-change: transform;
@@ -155,7 +159,7 @@ a {
 .depth-back {
     z-index: 1;
     background-image:
-        linear-gradient(rgba(20,45,31,0.25), rgba(20,45,31,0.3)),
+        linear-gradient(rgba(20, 45, 31, 0.25), rgba(20, 45, 31, 0.3)),
         url("https://images.unsplash.com/photo-1511497584788-876760111969?auto=format&fit=crop&w=2400&q=85");
     filter: blur(3px) brightness(0.75);
     opacity: 0.5;
@@ -165,7 +169,7 @@ a {
 .depth-middle {
     z-index: 2;
     background-image:
-        linear-gradient(rgba(17,40,26,0.35), rgba(17,40,26,0.45)),
+        linear-gradient(rgba(17, 40, 26, 0.35), rgba(17, 40, 26, 0.45)),
         url("https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=2400&q=85");
     filter: brightness(0.75);
     opacity: 0.55;
@@ -175,17 +179,8 @@ a {
 .depth-front {
     z-index: 3;
     background:
-        linear-gradient(
-            90deg,
-            rgba(7,22,14,0.65),
-            transparent 55%,
-            rgba(7,22,14,0.25)
-        ),
-        linear-gradient(
-            0deg,
-            rgba(7,22,14,0.65),
-            transparent 55%
-        );
+        linear-gradient(90deg, rgba(7, 22, 14, 0.65), transparent 55%, rgba(7, 22, 14, 0.25)),
+        linear-gradient(0deg, rgba(7, 22, 14, 0.65), transparent 55%);
     opacity: 0.9;
     transform: scale(1.15);
 }
@@ -194,37 +189,21 @@ a {
     z-index: 4;
     inset: -20%;
     background:
-        radial-gradient(
-            ellipse at 65% 20%,
-            var(--sunlight-glow, rgba(213,230,173,0.19)),
-            transparent 30%
-        ),
-        linear-gradient(
-            115deg,
-            transparent 35%,
-            rgba(215,231,185,0.07) 45%,
-            transparent 55%
-        );
+        radial-gradient(ellipse at 65% 20%, var(--sunlight-glow), transparent 30%),
+        linear-gradient(115deg, transparent 35%, rgba(215, 231, 185, 0.07) 45%, transparent 55%);
     filter: blur(25px);
     animation: sunlightMove 12s ease-in-out infinite alternate;
-    transition: background 1.5s ease;
+    transition: opacity 1.5s ease;
 }
 
 .hero-overlay {
     z-index: 5;
     background:
-        linear-gradient(
-            90deg,
-            rgba(9,24,16,0.78),
-            rgba(9,24,16,0.2) 85%
-        ),
-        linear-gradient(
-            0deg,
-            rgba(9,24,16,0.55),
-            transparent 60%
-        );
+        linear-gradient(90deg, rgba(9, 24, 16, 0.78), rgba(9, 24, 16, 0.2) 85%),
+        linear-gradient(0deg, rgba(9, 24, 16, 0.55), transparent 60%);
 }
 
+/* 霧 */
 .fog-layer {
     z-index: 6;
     left: -30%;
@@ -233,21 +212,9 @@ a {
     top: 30%;
     inset-inline: auto;
     background:
-        radial-gradient(
-            ellipse at 20% 50%,
-            rgba(220,231,208,0.18),
-            transparent 55%
-        ),
-        radial-gradient(
-            ellipse at 55% 45%,
-            rgba(201,218,196,0.15),
-            transparent 60%
-        ),
-        radial-gradient(
-            ellipse at 85% 55%,
-            rgba(220,231,208,0.13),
-            transparent 55%
-        );
+        radial-gradient(ellipse at 20% 50%, rgba(220, 231, 208, 0.18), transparent 55%),
+        radial-gradient(ellipse at 55% 45%, rgba(201, 218, 196, 0.15), transparent 60%),
+        radial-gradient(ellipse at 85% 55%, rgba(220, 231, 208, 0.13), transparent 55%);
     filter: blur(35px);
     will-change: transform;
 }
@@ -271,11 +238,7 @@ a {
     animation: fogMoveThree 55s ease-in-out infinite alternate;
 }
 
-
-/* ==============================
-   メインの文章
-============================== */
-
+/* メインの文章 */
 .hero-content {
     position: relative;
     z-index: 8;
@@ -290,12 +253,12 @@ a {
 }
 
 .hero h1 {
+    color: var(--cream);
     font-size: clamp(42px, 7vw, 82px);
     line-height: 1.3;
     font-weight: 500;
     letter-spacing: 0.08em;
-    color: var(--cream);
-    text-shadow: 0 5px 30px rgba(0,0,0,0.25);
+    text-shadow: 0 5px 30px rgba(0, 0, 0, 0.25);
 }
 
 .hero-description {
@@ -311,15 +274,15 @@ a {
     gap: 20px;
     margin-top: 42px;
     padding: 12px 24px;
-    border: 1px solid rgba(230,240,220,0.5);
+    border: 1px solid rgba(230, 240, 220, 0.5);
     border-radius: 30px;
     color: var(--cream);
     font-size: 13px;
-    transition: 0.3s;
+    transition: background 0.3s ease, transform 0.3s ease;
 }
 
 .scroll-button:hover {
-    background: rgba(230,240,220,0.15);
+    background: rgba(230, 240, 220, 0.15);
     transform: translateY(3px);
 }
 
@@ -332,236 +295,207 @@ a {
     z-index: 8;
     bottom: 35px;
     right: 8%;
-    color: rgba(240,240,225,0.7);
+    color: rgba(240, 240, 225, 0.7);
     font-size: 12px;
     letter-spacing: 0.12em;
 }
 
-
-/* ==============================
-   時間帯の光
-============================== */
-
-.daylight-tint {
-    position: absolute;
-    inset: 0;
-    z-index: 7;
-    pointer-events: none;
-    background: var(--daylight-color, rgba(145,175,190,0.08));
-    mix-blend-mode: soft-light;
-    transition: background 1.5s ease;
-}
-
-
-/* ==============================
-   セクション共通
-============================== */
-
+/* 各セクション */
 .content-section {
     position: relative;
-    z-index: 3;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 130px 50px;
+    z-index: 1;
+    padding: 125px 8%;
+    background: linear-gradient(180deg, rgba(28, 49, 38, 0.97), rgba(20, 37, 30, 0.99));
+}
+
+.about-section {
+    background: linear-gradient(180deg, #1c3126, #20382b);
+}
+
+.hobby-section {
+    background: linear-gradient(180deg, #20382b, #172b21);
 }
 
 .section-heading {
+    max-width: 900px;
+    margin: 0 auto 55px;
     text-align: center;
-    margin-bottom: 65px;
 }
 
-.section-label {
-    color: var(--sage);
-    font-size: 12px;
-    letter-spacing: 0.25em;
-    margin-bottom: 12px;
-}
-
-.section-heading h2,
-.github-card h2 {
+.section-heading h2 {
     color: var(--cream);
-    font-size: 34px;
+    font-size: clamp(30px, 4vw, 44px);
     font-weight: 500;
     letter-spacing: 0.12em;
 }
 
 .section-subtitle {
+    margin-top: 8px;
     color: var(--muted);
     font-size: 13px;
-    margin-top: 12px;
+    letter-spacing: 0.12em;
 }
-
-
-/* ==============================
-   自己紹介
-============================== */
 
 .about-text {
     max-width: 760px;
-    margin: 0 auto 65px;
-    color: #d3dbd0;
+    margin: 0 auto 55px;
+    color: #d7dfd2;
     font-size: 15px;
+    line-height: 2.2;
 }
 
-.about-text p {
-    margin-bottom: 20px;
+.about-text p + p {
+    margin-top: 16px;
 }
 
 .info-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 22px;
+    max-width: 1100px;
+    margin: 0 auto;
 }
 
 .info-card {
-    padding: 35px 28px;
-    background: rgba(255,255,255,0.035);
+    min-height: 220px;
+    padding: 30px 26px;
+    background: rgba(236, 241, 228, 0.055);
     border: 1px solid var(--border);
-    border-radius: 8px;
-    transition: transform 0.4s, background 0.4s;
+    border-radius: 14px;
+    transition: transform 0.35s ease, background 0.35s ease, border-color 0.35s ease;
 }
 
 .info-card:hover {
     transform: translateY(-7px);
-    background: rgba(255,255,255,0.07);
+    background: rgba(236, 241, 228, 0.09);
+    border-color: rgba(220, 231, 210, 0.35);
 }
 
 .card-icon {
-    font-size: 28px;
-    color: var(--sage);
     margin-bottom: 18px;
+    color: var(--sage);
+    font-size: 28px;
 }
 
-.info-card h3 {
-    font-size: 17px;
-    font-weight: 500;
-    margin-bottom: 12px;
+.info-card h3,
+.hobby-card h3 {
+    margin-bottom: 10px;
     color: var(--cream);
+    font-size: 18px;
+    font-weight: 500;
 }
 
-.info-card p {
-    font-size: 13px;
+.info-card p,
+.hobby-card p {
     color: var(--muted);
+    font-size: 13px;
+    line-height: 2;
 }
 
-
-/* ==============================
-   趣味
-============================== */
-
-.hobby-section {
-    max-width: none;
-    padding-left: max(50px, calc((100% - 1100px) / 2));
-    padding-right: max(50px, calc((100% - 1100px) / 2));
-    background: #1b3026;
-}
-
+/* 趣味 */
 .hobby-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 25px;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 24px;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 .hobby-card {
     overflow: hidden;
-    background: rgba(255,255,255,0.035);
+    background: rgba(236, 241, 228, 0.055);
     border: 1px solid var(--border);
-    border-radius: 8px;
-    transition: transform 0.4s, box-shadow 0.4s;
+    border-radius: 14px;
+    transition: transform 0.35s ease, border-color 0.35s ease;
 }
 
 .hobby-card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 20px 45px rgba(0,0,0,0.2);
+    transform: translateY(-7px);
+    border-color: rgba(220, 231, 210, 0.35);
 }
 
 .hobby-image {
     height: 210px;
     background-size: cover;
     background-position: center;
-    transition: transform 0.7s;
+    filter: saturate(0.72);
+    transition: transform 0.6s ease, filter 0.6s ease;
 }
 
 .hobby-card:hover .hobby-image {
-    transform: scale(1.05);
+    transform: scale(1.04);
+    filter: saturate(0.95);
 }
 
 .game-image {
-    background-image:
-        linear-gradient(rgba(10,20,15,0.1), rgba(10,20,15,0.3)),
-        url("https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=900&q=80");
+    background-image: url("https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=900&q=80");
 }
 
 .book-image {
-    background-image:
-        linear-gradient(rgba(10,20,15,0.1), rgba(10,20,15,0.3)),
-        url("https://images.unsplash.com/photo-1507842217343-583bb7270b66?auto=format&fit=crop&w=900&q=80");
+    background-image: url("https://images.unsplash.com/photo-1507842217343-583bb7270b66?auto=format&fit=crop&w=900&q=80");
 }
 
 .movie-image {
-    background-image:
-        linear-gradient(rgba(10,20,15,0.1), rgba(10,20,15,0.3)),
-        url("https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&w=900&q=80");
+    background-image: url("https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&w=900&q=80");
 }
 
 .hobby-content {
-    padding: 25px;
+    padding: 25px 25px 30px;
 }
 
 .hobby-number {
+    display: inline-block;
+    margin-bottom: 10px;
     color: var(--sage);
     font-size: 12px;
     letter-spacing: 0.15em;
 }
 
-.hobby-content h3 {
-    font-size: 21px;
-    font-weight: 500;
-    margin: 8px 0 12px;
-    color: var(--cream);
-}
-
-.hobby-content p {
-    font-size: 13px;
-    color: var(--muted);
-}
-
-
-/* ==============================
-   GitHub
-============================== */
-
+/* GitHub */
 .github-section {
-    text-align: center;
+    padding-top: 95px;
+    padding-bottom: 110px;
+    background: linear-gradient(180deg, #172b21, #14251e);
 }
 
 .github-card {
-    padding: 65px 30px;
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 55px 35px;
+    text-align: center;
+    background: rgba(236, 241, 228, 0.055);
     border: 1px solid var(--border);
-    border-radius: 10px;
-    background:
-        linear-gradient(
-            135deg,
-            rgba(129,155,125,0.12),
-            rgba(255,255,255,0.02)
-        );
+    border-radius: 18px;
+}
+
+.section-label {
+    margin-bottom: 12px;
+    color: var(--sage);
+    font-size: 12px;
+    letter-spacing: 0.18em;
+}
+
+.github-card h2 {
+    color: var(--cream);
+    font-size: 34px;
+    font-weight: 500;
 }
 
 .github-card > p:not(.section-label) {
-    margin-top: 18px;
+    margin-top: 12px;
     color: var(--muted);
     font-size: 14px;
 }
 
 .github-link {
     display: inline-block;
-    margin-top: 30px;
-    padding: 13px 30px;
-    border: 1px solid var(--sage);
+    margin-top: 28px;
+    padding: 11px 27px;
+    border: 1px solid rgba(230, 240, 220, 0.45);
     border-radius: 30px;
     color: var(--cream);
     font-size: 13px;
-    transition: 0.3s;
+    transition: background 0.3s ease, color 0.3s ease;
 }
 
 .github-link:hover {
@@ -569,54 +503,19 @@ a {
     color: var(--deep);
 }
 
-
-/* ==============================
-   フッター
-============================== */
-
+/* フッター */
 footer {
     position: relative;
-    z-index: 3;
-    padding: 30px;
+    z-index: 1;
+    padding: 25px 20px;
     text-align: center;
-    color: var(--muted);
-    font-size: 12px;
     background: #101e18;
+    color: rgba(220, 231, 210, 0.55);
+    font-size: 11px;
+    letter-spacing: 0.08em;
 }
 
-
-/* ==============================
-   ホタル
-============================== */
-
-#fireflies {
-    position: fixed;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 4;
-    pointer-events: none;
-    opacity: 0;
-    transition: opacity 2s ease;
-}
-
-body.night-mode #fireflies {
-    opacity: 1;
-}
-
-body.night-mode .hero-background {
-    filter: brightness(0.58) saturate(0.75);
-}
-
-body.night-mode .forest-light {
-    opacity: 0.2;
-}
-
-
-/* ==============================
-   スクロール表示
-============================== */
-
+/* スクロール時の表示 */
 .reveal {
     opacity: 1;
     transform: none;
@@ -624,10 +523,8 @@ body.night-mode .forest-light {
 
 .js .reveal.prepare {
     opacity: 0;
-    transform: translateY(30px);
-    transition:
-        opacity 0.9s ease,
-        transform 0.9s ease;
+    transform: translateY(28px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
 }
 
 .js .reveal.prepare.visible {
@@ -635,58 +532,72 @@ body.night-mode .forest-light {
     transform: translateY(0);
 }
 
+/* ホタル */
+#fireflies {
+    position: fixed;
+    inset: 0;
+    z-index: 21;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    opacity: var(--firefly-opacity);
+    transition: opacity 2s ease;
+    mix-blend-mode: screen;
+}
 
-/* ==============================
-   アニメーション
-============================== */
-
+/* アニメーション */
 @keyframes fogMoveOne {
-    from {
-        transform: translateX(-12%) translateY(0);
-    }
-    to {
-        transform: translateX(12%) translateY(-15px);
-    }
+    from { transform: translate3d(-5%, 0, 0); }
+    to   { transform: translate3d(8%, -8px, 0); }
 }
 
 @keyframes fogMoveTwo {
-    from {
-        transform: translateX(10%) translateY(0);
-    }
-    to {
-        transform: translateX(-12%) translateY(20px);
-    }
+    from { transform: translate3d(7%, 0, 0); }
+    to   { transform: translate3d(-8%, 12px, 0); }
 }
 
 @keyframes fogMoveThree {
-    from {
-        transform: translateX(-8%) translateY(0);
-    }
-    to {
-        transform: translateX(10%) translateY(-12px);
-    }
+    from { transform: translate3d(-4%, 0, 0); }
+    to   { transform: translate3d(10%, -10px, 0); }
 }
 
 @keyframes sunlightMove {
-    from {
-        opacity: 0.45;
-        transform: translateX(-2%) scale(1);
+    from { transform: translate3d(-2%, -1%, 0) rotate(-3deg); }
+    to   { transform: translate3d(3%, 2%, 0) rotate(3deg); }
+}
+
+/* タブレット */
+@media (max-width: 900px) {
+    .content-section {
+        padding: 100px 6%;
     }
-    to {
-        opacity: 0.9;
-        transform: translateX(3%) scale(1.08);
+
+    .info-grid,
+    .hobby-grid {
+        gap: 16px;
+    }
+
+    .info-card {
+        padding: 25px 20px;
+    }
+
+    .hobby-image {
+        height: 175px;
+    }
+
+    .hobby-content {
+        padding: 22px 20px 25px;
     }
 }
 
-
-/* ==============================
-   スマートフォン対応
-============================== */
-
-@media (max-width: 750px) {
-
+/* スマートフォン */
+@media (max-width: 680px) {
     .navbar {
-        padding: 16px 5%;
+        padding: 14px 5%;
+    }
+
+    .logo {
+        font-size: 15px;
     }
 
     .nav-links {
@@ -698,7 +609,12 @@ body.night-mode .forest-light {
     }
 
     .hero {
-        padding: 120px 8% 100px;
+        min-height: 92svh;
+        padding: 115px 8% 100px;
+    }
+
+    .hero h1 {
+        font-size: clamp(38px, 11vw, 58px);
     }
 
     .hero-description {
@@ -706,48 +622,60 @@ body.night-mode .forest-light {
     }
 
     .hero-caption {
-        right: 8%;
+        right: 7%;
+        bottom: 23px;
         font-size: 10px;
     }
 
     .content-section {
-        padding: 90px 25px;
+        padding: 78px 7%;
+    }
+
+    .section-heading {
+        margin-bottom: 38px;
+    }
+
+    .about-text {
+        font-size: 13px;
     }
 
     .info-grid,
     .hobby-grid {
         grid-template-columns: 1fr;
+        max-width: 480px;
     }
 
-    .hobby-section {
-        padding-left: 25px;
-        padding-right: 25px;
+    .info-card {
+        min-height: auto;
     }
 
     .hobby-image {
-        height: 220px;
+        height: 210px;
     }
 
-    .section-heading {
-        margin-bottom: 45px;
-    }
-
-    .section-heading h2 {
-        font-size: 28px;
-    }
-
-    .fog-layer {
-        filter: blur(40px);
+    .github-card {
+        padding: 42px 22px;
     }
 }
 
+/* 画面幅が非常に狭い場合 */
+@media (max-width: 380px) {
+    .nav-links {
+        gap: 10px;
+    }
 
-/* ==============================
-   動きを減らす設定
-============================== */
+    .nav-links a {
+        font-size: 10px;
+    }
 
+    .hero {
+        padding-left: 7%;
+        padding-right: 7%;
+    }
+}
+
+/* 動きを減らす設定を利用している場合 */
 @media (prefers-reduced-motion: reduce) {
-
     html {
         scroll-behavior: auto;
     }
@@ -756,6 +684,7 @@ body.night-mode .forest-light {
     *::before,
     *::after {
         animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
         transition-duration: 0.01ms !important;
     }
 
@@ -767,20 +696,4 @@ body.night-mode .forest-light {
     #fireflies {
         display: none;
     }
-}
-/* 霧の横方向の位置 */
-.fog-layer {
-    left: -30%;
-    right: auto;
-}
-
-/* ホタルより文章を手前に表示 */
-.content-section,
-footer {
-    z-index: 5;
-}
-
-/* ホタルの光を自然になじませる */
-#fireflies {
-    mix-blend-mode: screen;
 }
