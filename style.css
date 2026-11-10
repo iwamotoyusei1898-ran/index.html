@@ -455,4 +455,21 @@ footer {
         transform: none;
     }
 }
+#particles {
+    z-index: 0;
+}
 
+.cursor-glow {
+    z-index: 0;
+}
+
+.hero,
+.section,
+footer {
+    position: relative;
+    z-index: 1;
+}
+
+body::before {
+    z-index: -1;
+}
