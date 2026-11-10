@@ -738,3 +738,239 @@ footer p {
     pointer-events: none;
     z-index: 1;
 }
+
+/* ==================================
+   CINEMATIC FOREST EFFECT
+================================== */
+
+/* 森の基本レイヤー */
+.hero {
+    isolation: isolate;
+}
+
+/* 背景画像 */
+.hero-background {
+    z-index: -5;
+    will-change: transform;
+}
+
+/* 奥行きのある森 */
+.forest-layer {
+    position: absolute;
+    inset: -5%;
+    pointer-events: none;
+    background-size: cover;
+    background-position: center;
+    will-change: transform;
+}
+
+/* 遠くの森 */
+.depth-back {
+    z-index: -4;
+    background-image:
+        linear-gradient(
+            rgba(20, 45, 31, 0.25),
+            rgba(20, 45, 31, 0.3)
+        ),
+        url("https://images.unsplash.com/photo-1511497584788-876760111969?auto=format&fit=crop&w=2400&q=85");
+
+    filter: blur(3px) brightness(0.75);
+    opacity: 0.45;
+    transform: scale(1.1);
+}
+
+/* 中間の森 */
+.depth-middle {
+    z-index: -3;
+    background-image:
+        linear-gradient(
+            rgba(17, 40, 26, 0.35),
+            rgba(17, 40, 26, 0.45)
+        ),
+        url("https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=2400&q=85");
+
+    filter: brightness(0.75);
+    opacity: 0.55;
+    transform: scale(1.12);
+}
+
+/* 手前の森 */
+.depth-front {
+    z-index: -2;
+    background:
+        linear-gradient(
+            90deg,
+            rgba(7, 22, 14, 0.6),
+            transparent 40%,
+            rgba(7, 22, 14, 0.25)
+        ),
+        linear-gradient(
+            0deg,
+            rgba(7, 22, 14, 0.65),
+            transparent 50%
+        );
+
+    opacity: 0.9;
+    transform: scale(1.15);
+}
+
+/* 木漏れ日の光 */
+.forest-light {
+    position: absolute;
+    z-index: -1;
+    inset: -20%;
+    pointer-events: none;
+
+    background:
+        radial-gradient(
+            ellipse at 65% 20%,
+            rgba(213, 230, 173, 0.19),
+            transparent 25%
+        ),
+        linear-gradient(
+            115deg,
+            transparent 35%,
+            rgba(215, 231, 185, 0.07) 45%,
+            transparent 55%
+        );
+
+    filter: blur(25px);
+    animation: sunlightMove 12s ease-in-out infinite alternate;
+}
+
+/* ==================================
+   霧のアニメーション
+================================== */
+
+.fog-layer {
+    position: absolute;
+    left: -30%;
+    width: 160%;
+    height: 45%;
+    pointer-events: none;
+
+    background:
+        radial-gradient(
+            ellipse at 20% 50%,
+            rgba(220, 231, 208, 0.18),
+            transparent 55%
+        ),
+        radial-gradient(
+            ellipse at 55% 45%,
+            rgba(201, 218, 196, 0.15),
+            transparent 60%
+        ),
+        radial-gradient(
+            ellipse at 85% 55%,
+            rgba(220, 231, 208, 0.13),
+            transparent 55%
+        );
+
+    filter: blur(28px);
+    will-change: transform, opacity;
+}
+
+/* 奥の薄い霧 */
+.fog-one {
+    z-index: 0;
+    top: 30%;
+    opacity: 0.5;
+    animation: fogMoveOne 35s ease-in-out infinite alternate;
+}
+
+/* 中間の霧 */
+.fog-two {
+    z-index: 1;
+    top: 52%;
+    opacity: 0.65;
+    filter: blur(40px);
+    animation: fogMoveTwo 45s ease-in-out infinite alternate;
+}
+
+/* 手前の霧 */
+.fog-three {
+    z-index: 2;
+    top: 68%;
+    opacity: 0.35;
+    filter: blur(55px);
+    animation: fogMoveThree 55s ease-in-out infinite alternate;
+}
+
+/* 霧がゆっくり流れる */
+@keyframes fogMoveOne {
+    0% {
+        transform: translateX(-12%) translateY(0);
+    }
+
+    100% {
+        transform: translateX(12%) translateY(-15px);
+    }
+}
+
+@keyframes fogMoveTwo {
+    0% {
+        transform: translateX(10%) translateY(0);
+    }
+
+    100% {
+        transform: translateX(-12%) translateY(20px);
+    }
+}
+
+@keyframes fogMoveThree {
+    0% {
+        transform: translateX(-8%) translateY(0);
+    }
+
+    100% {
+        transform: translateX(10%) translateY(-12px);
+    }
+}
+
+/* 木漏れ日が揺れる */
+@keyframes sunlightMove {
+    0% {
+        opacity: 0.45;
+        transform: translateX(-2%) scale(1);
+    }
+
+    100% {
+        opacity: 0.9;
+        transform: translateX(3%) scale(1.08);
+    }
+}
+
+/* 既存の文字を前面に表示 */
+.hero-content,
+.hero-bottom,
+.hero-caption,
+.hero-number {
+    position: relative;
+    z-index: 5;
+}
+
+/* 霧の上に暗いフィルターを重ねる */
+.hero-overlay {
+    z-index: 3;
+}
+
+/* スマートフォンではエフェクトを軽量化 */
+@media (max-width: 750px) {
+    .depth-back,
+    .depth-middle,
+    .depth-front {
+        background-position: center;
+    }
+
+    .fog-layer {
+        filter: blur(35px);
+    }
+}
+
+/* 動きを抑える設定 */
+@media (prefers-reduced-motion: reduce) {
+    .fog-layer,
+    .forest-light {
+        animation: none;
+    }
+}
