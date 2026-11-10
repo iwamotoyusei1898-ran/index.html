@@ -723,3 +723,18 @@ footer p {
         transform: none;
     }
 }
+
+.mouse-glow {
+    position: fixed;
+    width: 280px;
+    height: 280px;
+    border-radius: 50%;
+    background: radial-gradient(
+        circle,
+        rgba(174, 199, 148, 0.09),
+        transparent 70%
+    );
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    z-index: 1;
+}
