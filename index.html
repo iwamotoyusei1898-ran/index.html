@@ -1,20 +1,22 @@
-
 <!DOCTYPE html>
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#14251e">
+    <meta name="description" content="岩元優征の自己紹介ページ。プログラミング、XR技術、ゲーム、読書、映画について紹介します。">
     <title>岩元優征 | 自己紹介</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
     <!-- スクロール進行バー -->
-    <div class="scroll-progress" id="scrollProgress"></div>
+    <div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
+
+    <!-- ページ全体に重ねる時間帯の光 -->
+    <div class="daylight-overlay" id="daylightOverlay" aria-hidden="true"></div>
 
     <!-- ナビゲーション -->
-    <nav class="navbar">
+    <nav class="navbar" aria-label="メインナビゲーション">
         <a href="#home" class="logo">岩元優征</a>
         <div class="nav-links">
             <a href="#about">自己紹介</a>
@@ -26,58 +28,42 @@
     <main>
         <!-- メインビジュアル -->
         <section class="hero" id="home">
+            <div class="hero-background" aria-hidden="true"></div>
+            <div class="forest-layer depth-back" aria-hidden="true"></div>
+            <div class="forest-layer depth-middle" aria-hidden="true"></div>
+            <div class="forest-layer depth-front" aria-hidden="true"></div>
+            <div class="forest-light" aria-hidden="true"></div>
 
-            <div class="hero-background"></div>
-            <div class="forest-layer depth-back"></div>
-            <div class="forest-layer depth-middle"></div>
-            <div class="forest-layer depth-front"></div>
-
-            <div class="forest-light"></div>
-
-            <div class="fog-layer fog-one"></div>
-            <div class="fog-layer fog-two"></div>
-            <div class="fog-layer fog-three"></div>
-
-            <div class="hero-overlay"></div>
-            <div class="daylight-tint"></div>
+            <div class="fog-layer fog-one" aria-hidden="true"></div>
+            <div class="fog-layer fog-two" aria-hidden="true"></div>
+            <div class="fog-layer fog-three" aria-hidden="true"></div>
+            <div class="hero-overlay" aria-hidden="true"></div>
 
             <div class="hero-content">
                 <p class="hero-label">自己紹介ページ</p>
-
                 <h1>岩元 優征</h1>
-
                 <p class="hero-description">
                     プログラミングとXR技術に興味があります。<br>
                     ゲームや読書、映画を楽しみながら、<br>
                     新しいことに挑戦しています。
                 </p>
-
                 <a href="#about" class="scroll-button">
-                    下へスクロール
-                    <span>↓</span>
+                    下へスクロール <span aria-hidden="true">↓</span>
                 </a>
             </div>
 
-            <div class="hero-caption">
-                静かな森の中で、ゆっくりと。
-            </div>
-
+            <div class="hero-caption">静かな森の中で、ゆっくりと。</div>
         </section>
 
         <!-- 自己紹介 -->
         <section class="content-section about-section" id="about">
             <div class="section-heading reveal">
-                <p class="section-label">ABOUT</p>
                 <h2>自己紹介</h2>
-                <p class="section-subtitle">
-                    私について
-                </p>
+                <p class="section-subtitle">私について</p>
             </div>
 
             <div class="about-text reveal">
-                <p>
-                    こんにちは。岩元優征です。
-                </p>
+                <p>こんにちは。岩元優征です。</p>
                 <p>
                     現在、プログラミングを勉強しています。
                     特にXR技術に興味があり、現実と仮想空間が
@@ -92,30 +78,21 @@
 
             <div class="info-grid">
                 <article class="info-card reveal">
-                    <div class="card-icon">⌨</div>
+                    <div class="card-icon" aria-hidden="true">⌨</div>
                     <h3>プログラミング</h3>
-                    <p>
-                        Pythonなどを使って、
-                        ゲームやプログラムの制作に挑戦しています。
-                    </p>
+                    <p>Pythonなどを使って、ゲームやプログラムの制作に挑戦しています。</p>
                 </article>
 
                 <article class="info-card reveal">
-                    <div class="card-icon">◇</div>
+                    <div class="card-icon" aria-hidden="true">◇</div>
                     <h3>XR技術</h3>
-                    <p>
-                        VR・ARなど、
-                        新しい空間体験を生み出す技術に興味があります。
-                    </p>
+                    <p>VR・ARなど、新しい空間体験を生み出す技術に興味があります。</p>
                 </article>
 
                 <article class="info-card reveal">
-                    <div class="card-icon">🎮</div>
+                    <div class="card-icon" aria-hidden="true">🎮</div>
                     <h3>ゲーム</h3>
-                    <p>
-                        FPSやRTSをはじめ、
-                        さまざまなジャンルのゲームを遊びます。
-                    </p>
+                    <p>FPSやRTSをはじめ、さまざまなジャンルのゲームを遊びます。</p>
                 </article>
             </div>
         </section>
@@ -123,51 +100,37 @@
         <!-- 趣味 -->
         <section class="content-section hobby-section" id="hobby">
             <div class="section-heading reveal">
-                <p class="section-label">HOBBY</p>
                 <h2>趣味</h2>
-                <p class="section-subtitle">
-                    好きなこと、楽しんでいること
-                </p>
+                <p class="section-subtitle">好きなこと、楽しんでいること</p>
             </div>
 
             <div class="hobby-grid">
-
                 <article class="hobby-card reveal">
-                    <div class="hobby-image game-image"></div>
+                    <div class="hobby-image game-image" role="img" aria-label="ゲームのイメージ"></div>
                     <div class="hobby-content">
                         <span class="hobby-number">01</span>
                         <h3>ゲーム</h3>
-                        <p>
-                            FPSやRTSなど、幅広いジャンルを遊びます。
-                            戦略を考えたり、仲間と協力したりすることが好きです。
-                        </p>
+                        <p>FPSやRTSなど、幅広いジャンルを遊びます。戦略を考えたり、仲間と協力したりすることが好きです。</p>
                     </div>
                 </article>
 
                 <article class="hobby-card reveal">
-                    <div class="hobby-image book-image"></div>
+                    <div class="hobby-image book-image" role="img" aria-label="本のイメージ"></div>
                     <div class="hobby-content">
                         <span class="hobby-number">02</span>
                         <h3>読書</h3>
-                        <p>
-                            主にミステリー小説を読みます。
-                            物語の謎を考えながら読み進める時間が好きです。
-                        </p>
+                        <p>主にミステリー小説を読みます。物語の謎を考えながら読み進める時間が好きです。</p>
                     </div>
                 </article>
 
                 <article class="hobby-card reveal">
-                    <div class="hobby-image movie-image"></div>
+                    <div class="hobby-image movie-image" role="img" aria-label="映画館のイメージ"></div>
                     <div class="hobby-content">
                         <span class="hobby-number">03</span>
                         <h3>映画鑑賞</h3>
-                        <p>
-                            MARVEL作品やプレデターシリーズなど、
-                            アクションやSF映画をよく観ます。
-                        </p>
+                        <p>マーベル作品やプレデターシリーズなど、アクションやSF映画をよく観ます。</p>
                     </div>
                 </article>
-
             </div>
         </section>
 
@@ -176,16 +139,9 @@
             <div class="github-card reveal">
                 <p class="section-label">制作物・活動</p>
                 <h2>GitHub</h2>
-                <p>
-                    制作したプログラムや、
-                    学習の記録を公開しています。
-                </p>
-                <a
-                    href="https://github.com/iwamotoyusei1898-ran"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="github-link"
-                >
+                <p>制作したプログラムや、学習の記録を公開しています。</p>
+                <a href="https://github.com/iwamotoyusei1898-ran"
+                   target="_blank" rel="noopener noreferrer" class="github-link">
                     GitHubを見る ↗
                 </a>
             </div>
@@ -196,6 +152,7 @@
         <p>© 2026 岩元優征</p>
     </footer>
 
+    <!-- 夜のホタル -->
     <canvas id="fireflies" aria-hidden="true"></canvas>
 
     <script src="script.js"></script>
