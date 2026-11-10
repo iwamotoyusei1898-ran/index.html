@@ -148,3 +148,69 @@ if (window.matchMedia("(pointer: fine)").matches) {
     animateGlow();
 
 }
+
+// ==================================
+// FOREST PARALLAX EFFECT
+// ==================================
+
+const hero = document.querySelector(".hero");
+
+const forestLayers = [
+    {
+        element: document.querySelector(".depth-back"),
+        speed: 0.12
+    },
+    {
+        element: document.querySelector(".depth-middle"),
+        speed: 0.25
+    },
+    {
+        element: document.querySelector(".depth-front"),
+        speed: 0.4
+    }
+];
+
+let ticking = false;
+
+function updateForestParallax() {
+
+    if (!hero) return;
+
+    const scrollY = window.scrollY;
+    const heroHeight = hero.offsetHeight;
+
+    // ヒーロー部分の範囲内だけ動かす
+    const progress = Math.max(
+        0,
+        Math.min(scrollY, heroHeight)
+    );
+
+    forestLayers.forEach(layer => {
+
+        if (!layer.element) return;
+
+        const movement = progress * layer.speed;
+
+        layer.element.style.transform =
+            `translate3d(0, ${-movement}px, 0) scale(1.12)`;
+
+    });
+
+    ticking = false;
+}
+
+window.addEventListener("scroll", () => {
+
+    if (!ticking) {
+
+        requestAnimationFrame(updateForestParallax);
+
+        ticking = true;
+
+    }
+
+}, {
+    passive: true
+});
+
+updateForestParallax();
