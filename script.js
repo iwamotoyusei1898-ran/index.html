@@ -1,4 +1,3 @@
-
 /* ==============================
    初期設定
 ============================== */
@@ -15,30 +14,32 @@ const background = document.querySelector(".hero-background");
 const forestLayers = [
     {
         element: document.querySelector(".depth-back"),
-        speed: 0.12,
-        mouse: 0.3
+        scrollSpeed: 0.12,
+        mouseSpeed: 0.3,
+        scale: 1.10
     },
     {
         element: document.querySelector(".depth-middle"),
-        speed: 0.25,
-        mouse: 0.6
+        scrollSpeed: 0.25,
+        mouseSpeed: 0.6,
+        scale: 1.12
     },
     {
         element: document.querySelector(".depth-front"),
-        speed: 0.4,
-        mouse: 1
+        scrollSpeed: 0.4,
+        mouseSpeed: 1,
+        scale: 1.15
     }
 ];
 
 
 /* ==============================
-   スクロール表示
+   スクロール時に要素を表示
 ============================== */
 
 const revealElements = document.querySelectorAll(".reveal");
 
 if (!reducedMotion && "IntersectionObserver" in window) {
-
     const revealObserver = new IntersectionObserver(
         entries => {
             entries.forEach(entry => {
@@ -48,9 +49,7 @@ if (!reducedMotion && "IntersectionObserver" in window) {
                 }
             });
         },
-        {
-            threshold: 0.12
-        }
+        { threshold: 0.12 }
     );
 
     revealElements.forEach(element => {
@@ -61,42 +60,31 @@ if (!reducedMotion && "IntersectionObserver" in window) {
 
 
 /* ==============================
-   スクロール進行バー
+   スクロール進行バーとナビゲーション
 ============================== */
 
 const progressBar = document.getElementById("scrollProgress");
+const navbar = document.querySelector(".navbar");
 
-function updateProgressBar() {
-
+function getPageProgress() {
     const scrollable =
         document.documentElement.scrollHeight - window.innerHeight;
 
-    const progress = scrollable > 0
-        ? (window.scrollY / scrollable) * 100
-        : 0;
+    if (scrollable <= 0) return 0;
 
-    if (progressBar) {
-        progressBar.style.width = `${progress}%`;
-    }
-
+    return Math.max(0, Math.min(1, window.scrollY / scrollable));
 }
 
+function updateProgressAndNavbar() {
+    const progress = getPageProgress();
 
-/* ==============================
-   ナビゲーションの背景
-============================== */
+    if (progressBar) {
+        progressBar.style.width = `${progress * 100}%`;
+    }
 
-const navbar = document.querySelector(".navbar");
-
-function updateNavbar() {
-
-    if (!navbar) return;
-
-    navbar.classList.toggle(
-        "scrolled",
-        window.scrollY > 50
-    );
-
+    if (navbar) {
+        navbar.classList.toggle("scrolled", window.scrollY > 50);
+    }
 }
 
 
@@ -106,14 +94,13 @@ function updateNavbar() {
 
 let targetMouseX = 0;
 let targetMouseY = 0;
-
 let currentMouseX = 0;
 let currentMouseY = 0;
 
-if (hero && !reducedMotion) {
+const hasFinePointer = window.matchMedia("(pointer: fine)").matches;
 
-    hero.addEventListener("mousemove", event => {
-
+if (hero && !reducedMotion && hasFinePointer) {
+    hero.addEventListener("pointermove", event => {
         const rect = hero.getBoundingClientRect();
 
         const x = (event.clientX - rect.left) / rect.width;
@@ -121,26 +108,23 @@ if (hero && !reducedMotion) {
 
         targetMouseX = (0.5 - x) * 24;
         targetMouseY = (0.5 - y) * 16;
-
     });
 
-    hero.addEventListener("mouseleave", () => {
+    hero.addEventListener("pointerleave", () => {
         targetMouseX = 0;
         targetMouseY = 0;
     });
-
 }
 
 
 /* ==============================
-   スクロールによる奥行き
+   スクロールによる森の奥行き
 ============================== */
 
 let targetScroll = 0;
 let currentScroll = 0;
 
 function updateScrollTarget() {
-
     if (!hero) return;
 
     const rect = hero.getBoundingClientRect();
@@ -149,105 +133,114 @@ function updateScrollTarget() {
         0,
         Math.min(-rect.top, hero.offsetHeight)
     );
+}
 
+function animateForest() {
+    currentMouseX += (targetMouseX - currentMouseX) * 0.045;
+    currentMouseY += (targetMouseY - currentMouseY) * 0.045;
+    currentScroll += (targetScroll - currentScroll) * 0.08;
+
+    if (background) {
+        background.style.transform =
+            `translate3d(${currentMouseX * 0.25}px, ${currentMouseY * 0.25}px, 0) scale(1.12)`;
+    }
+
+    forestLayers.forEach(layer => {
+        if (!layer.element) return;
+
+        const mouseX = currentMouseX * layer.mouseSpeed;
+        const mouseY = currentMouseY * layer.mouseSpeed;
+        const scrollY = -currentScroll * layer.scrollSpeed;
+
+        layer.element.style.transform =
+            `translate3d(${mouseX}px, ${mouseY + scrollY}px, 0) scale(${layer.scale})`;
+    });
+
+    requestAnimationFrame(animateForest);
 }
 
 
 /* ==============================
-   朝・昼・夕方・夜の色
+   朝・昼・夕方・夜の色変化
+   ページ全体のスクロール量に連動
 ============================== */
 
 const timeColors = [
     {
         position: 0,
         daylight: [145, 175, 190],
-        sunlight: [175, 205, 210]
+        sunlight: [175, 205, 210],
+        fireflies: 0
     },
     {
-        position: 0.33,
+        position: 0.30,
         daylight: [210, 220, 175],
-        sunlight: [230, 220, 150]
+        sunlight: [230, 220, 150],
+        fireflies: 0
     },
     {
-        position: 0.68,
+        position: 0.58,
         daylight: [225, 150, 95],
-        sunlight: [240, 165, 90]
+        sunlight: [240, 165, 90],
+        fireflies: 0.25
+    },
+    {
+        position: 0.82,
+        daylight: [20, 35, 55],
+        sunlight: [65, 80, 100],
+        fireflies: 1
     },
     {
         position: 1,
-        daylight: [20, 35, 55],
-        sunlight: [65, 80, 100]
+        daylight: [12, 24, 40],
+        sunlight: [35, 50, 70],
+        fireflies: 1
     }
 ];
 
+function interpolateNumber(start, end, amount) {
+    return start + (end - start) * amount;
+}
+
 function interpolateColor(start, end, amount) {
-
-    return start.map((value, index) => {
-        return Math.round(
-            value + (end[index] - value) * amount
-        );
-    });
-
+    return start.map((value, index) =>
+        Math.round(interpolateNumber(value, end[index], amount))
+    );
 }
 
 function getTimeColors(progress) {
-
     for (let i = 0; i < timeColors.length - 1; i++) {
-
         const start = timeColors[i];
         const end = timeColors[i + 1];
 
-        if (
-            progress >= start.position &&
-            progress <= end.position
-        ) {
-
+        if (progress >= start.position && progress <= end.position) {
             const amount =
                 (progress - start.position) /
                 (end.position - start.position);
 
             return {
-                daylight: interpolateColor(
-                    start.daylight,
-                    end.daylight,
-                    amount
-                ),
-                sunlight: interpolateColor(
-                    start.sunlight,
-                    end.sunlight,
-                    amount
-                )
+                daylight: interpolateColor(start.daylight, end.daylight, amount),
+                sunlight: interpolateColor(start.sunlight, end.sunlight, amount),
+                fireflies: interpolateNumber(start.fireflies, end.fireflies, amount)
             };
-
         }
-
     }
 
-    return {
-        daylight: timeColors[3].daylight,
-        sunlight: timeColors[3].sunlight
-    };
-
+    return timeColors[timeColors.length - 1];
 }
 
 let nightProgress = 0;
 
 function updateDaylight() {
-
-    const maxScroll =
-        document.documentElement.scrollHeight - window.innerHeight;
-
-    const progress = maxScroll > 0
-        ? Math.max(0, Math.min(1, window.scrollY / maxScroll))
-        : 0;
-
+    const progress = getPageProgress();
     const colors = getTimeColors(progress);
 
     const [r, g, b] = colors.daylight;
     const [sr, sg, sb] = colors.sunlight;
 
-    const daylightAlpha = 0.10 + progress * 0.15;
-    const sunlightAlpha = 0.16 * (1 - progress * 0.75);
+    // 時間帯に応じてページ全体の色を変える
+    const daylightAlpha = 0.12 + progress * 0.12;
+    const sunlightAlpha = 0.15 * (1 - progress * 0.78);
 
     document.documentElement.style.setProperty(
         "--daylight-color",
@@ -259,247 +252,131 @@ function updateDaylight() {
         `rgba(${sr}, ${sg}, ${sb}, ${sunlightAlpha})`
     );
 
-    // 68%から夜へ移行し、88%で夜になる
-    nightProgress = Math.max(
-        0,
-        Math.min(1, (progress - 0.68) / 0.20)
+    // 夕方からホタルが現れ、夜に向けて明るくなる
+    nightProgress = colors.fireflies;
+
+    document.documentElement.style.setProperty(
+        "--firefly-opacity",
+        String(nightProgress)
     );
 
-    document.body.classList.toggle(
-        "night-mode",
-        nightProgress > 0.05
-    );
-
+    document.body.classList.toggle("night-mode", nightProgress > 0.05);
 }
 
 
 /* ==============================
-   森の動きを滑らかにする
+   ホタルの描画
 ============================== */
 
-function animateForest() {
-
-    currentMouseX +=
-        (targetMouseX - currentMouseX) * 0.04;
-
-    currentMouseY +=
-        (targetMouseY - currentMouseY) * 0.04;
-
-    currentScroll +=
-        (targetScroll - currentScroll) * 0.08;
-
-    if (background) {
-
-        background.style.transform =
-            `translate3d(
-                ${currentMouseX * 0.25}px,
-                ${currentMouseY * 0.25}px,
-                0
-            ) scale(1.12)`;
-
-    }
-
-    forestLayers.forEach(layer => {
-
-        if (!layer.element) return;
-
-        const mouseX = currentMouseX * layer.mouse;
-        const mouseY = currentMouseY * layer.mouse;
-        const scrollY = -currentScroll * layer.speed;
-
-        layer.element.style.transform =
-            `translate3d(
-                ${mouseX}px,
-                ${mouseY + scrollY}px,
-                0
-            ) scale(${layer.speed === 0.12 ? 1.1 :
-                      layer.speed === 0.25 ? 1.12 : 1.15})`;
-
-    });
-
-    requestAnimationFrame(animateForest);
-
-}
-
-
-/* ==============================
-   ホタル
-============================== */
-
-const fireflyCanvas = document.getElementById("fireflies");
-const fireflyCtx = fireflyCanvas
-    ? fireflyCanvas.getContext("2d")
-    : null;
+const canvas = document.getElementById("fireflies");
+const context = canvas ? canvas.getContext("2d") : null;
 
 let fireflies = [];
-let fireflyFrame = 0;
+let canvasWidth = 0;
+let canvasHeight = 0;
+let pixelRatio = 1;
 
 function createFireflies() {
+    if (!canvas || !context) return;
 
-    if (!fireflyCanvas || !fireflyCtx) return;
+    pixelRatio = Math.min(window.devicePixelRatio || 1, 1.5);
+    canvasWidth = window.innerWidth;
+    canvasHeight = window.innerHeight;
 
-    const count = Math.min(
-        Math.floor(window.innerWidth / 18),
-        65
-    );
+    canvas.width = Math.floor(canvasWidth * pixelRatio);
+    canvas.height = Math.floor(canvasHeight * pixelRatio);
+    canvas.style.width = `${canvasWidth}px`;
+    canvas.style.height = `${canvasHeight}px`;
 
-    fireflies = [];
+    context.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
 
-    for (let i = 0; i < count; i++) {
+    const isSmallScreen = window.innerWidth < 680;
+    const count = isSmallScreen ? 18 : 38;
 
-        fireflies.push({
-            x: Math.random() * window.innerWidth,
-            y: Math.random() * window.innerHeight,
-            size: Math.random() * 1.5 + 1,
-            speedX: (Math.random() - 0.5) * 0.35,
-            speedY: (Math.random() - 0.5) * 0.3,
-            phase: Math.random() * Math.PI * 2,
-            glow: Math.random() * 0.5 + 0.5
-        });
-
-    }
-
+    fireflies = Array.from({ length: count }, () => ({
+        x: Math.random() * canvasWidth,
+        y: Math.random() * canvasHeight,
+        radius: Math.random() * 1.8 + 0.8,
+        speedX: (Math.random() - 0.5) * 0.28,
+        speedY: (Math.random() - 0.5) * 0.22,
+        phase: Math.random() * Math.PI * 2,
+        pulseSpeed: Math.random() * 0.018 + 0.008
+    }));
 }
 
-function resizeFireflies() {
+function drawFireflies() {
+    if (!canvas || !context) return;
 
-    if (!fireflyCanvas || !fireflyCtx) return;
+    context.clearRect(0, 0, canvasWidth, canvasHeight);
 
-    const dpr = Math.min(
-        window.devicePixelRatio || 1,
-        2
-    );
+    if (nightProgress > 0.01) {
+        fireflies.forEach(firefly => {
+            firefly.x += firefly.speedX;
+            firefly.y += firefly.speedY;
+            firefly.phase += firefly.pulseSpeed;
 
-    fireflyCanvas.width = window.innerWidth * dpr;
-    fireflyCanvas.height = window.innerHeight * dpr;
+            if (firefly.x < -10) firefly.x = canvasWidth + 10;
+            if (firefly.x > canvasWidth + 10) firefly.x = -10;
+            if (firefly.y < -10) firefly.y = canvasHeight + 10;
+            if (firefly.y > canvasHeight + 10) firefly.y = -10;
 
-    fireflyCanvas.style.width = `${window.innerWidth}px`;
-    fireflyCanvas.style.height = `${window.innerHeight}px`;
+            const pulse = (Math.sin(firefly.phase) + 1) / 2;
+            const alpha = (0.18 + pulse * 0.65) * nightProgress;
 
-    fireflyCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
-
-    createFireflies();
-
-}
-
-function animateFireflies() {
-
-    if (!fireflyCtx || !fireflyCanvas) return;
-
-    const width = window.innerWidth;
-    const height = window.innerHeight;
-
-    fireflyCtx.clearRect(0, 0, width, height);
-
-    if (nightProgress > 0) {
-
-        fireflyFrame += 0.015;
-
-        fireflies.forEach(fly => {
-
-            fly.x += fly.speedX;
-            fly.y += fly.speedY;
-
-            if (fly.x < -10) fly.x = width + 10;
-            if (fly.x > width + 10) fly.x = -10;
-            if (fly.y < -10) fly.y = height + 10;
-            if (fly.y > height + 10) fly.y = -10;
-
-            const pulse =
-                (Math.sin(fireflyFrame + fly.phase) + 1) / 2;
-
-            const alpha =
-                nightProgress *
-                fly.glow *
-                (0.25 + pulse * 0.75);
-
-            const gradient = fireflyCtx.createRadialGradient(
-                fly.x,
-                fly.y,
-                0,
-                fly.x,
-                fly.y,
-                fly.size * 7
-            );
-
-            gradient.addColorStop(
-                0,
-                `rgba(220, 255, 170, ${alpha})`
-            );
-
-            gradient.addColorStop(
-                0.3,
-                `rgba(180, 235, 120, ${alpha * 0.5})`
-            );
-
-            gradient.addColorStop(
-                1,
-                "rgba(180, 235, 120, 0)"
-            );
-
-            fireflyCtx.beginPath();
-            fireflyCtx.fillStyle = gradient;
-
-            fireflyCtx.arc(
-                fly.x,
-                fly.y,
-                fly.size * 7,
+            context.beginPath();
+            context.arc(
+                firefly.x,
+                firefly.y,
+                firefly.radius * (0.8 + pulse * 0.5),
                 0,
                 Math.PI * 2
             );
-
-            fireflyCtx.fill();
-
-            fireflyCtx.beginPath();
-
-            fireflyCtx.fillStyle =
-                `rgba(235, 255, 190, ${alpha})`;
-
-            fireflyCtx.arc(
-                fly.x,
-                fly.y,
-                fly.size,
-                0,
-                Math.PI * 2
-            );
-
-            fireflyCtx.fill();
-
+            context.fillStyle = `rgba(220, 245, 150, ${alpha})`;
+            context.shadowBlur = 12;
+            context.shadowColor = `rgba(190, 235, 120, ${alpha})`;
+            context.fill();
         });
 
+        context.shadowBlur = 0;
     }
 
-    requestAnimationFrame(animateFireflies);
-
+    requestAnimationFrame(drawFireflies);
 }
 
 
 /* ==============================
-   イベント登録と起動
+   イベントと初期化
 ============================== */
 
-window.addEventListener("scroll", () => {
+let scrollTicking = false;
 
-    updateProgressBar();
-    updateNavbar();
-    updateScrollTarget();
-    updateDaylight();
+function handleScroll() {
+    if (scrollTicking) return;
 
-}, { passive: true });
+    scrollTicking = true;
+
+    requestAnimationFrame(() => {
+        updateProgressAndNavbar();
+        updateScrollTarget();
+        updateDaylight();
+        scrollTicking = false;
+    });
+}
+
+window.addEventListener("scroll", handleScroll, { passive: true });
 
 window.addEventListener("resize", () => {
     updateScrollTarget();
     updateDaylight();
-    resizeFireflies();
+    createFireflies();
 });
 
-updateProgressBar();
-updateNavbar();
+updateProgressAndNavbar();
 updateScrollTarget();
 updateDaylight();
-resizeFireflies();
+createFireflies();
 
 if (!reducedMotion) {
-    animateForest();
-    animateFireflies();
+    requestAnimationFrame(animateForest);
+    requestAnimationFrame(drawFireflies);
 }
