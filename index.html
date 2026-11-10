@@ -4,263 +4,199 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>YUSEI IWAMOTO | Portfolio</title>
-
+    <meta name="theme-color" content="#14251e">
+    <title>岩元優征 | 自己紹介</title>
     <link rel="stylesheet" href="style.css">
 </head>
-
-
 <body>
 
+    <!-- スクロール進行バー -->
     <div class="scroll-progress" id="scrollProgress"></div>
-
-    <!-- ホタルの描画用キャンバス -->
-    <canvas id="fireflies" aria-hidden="true"></canvas>
-
 
     <!-- ナビゲーション -->
     <nav class="navbar">
-        <a href="#home" class="brand">YUSEI<span>.</span></a>
-
+        <a href="#home" class="logo">岩元優征</a>
         <div class="nav-links">
-            <a href="#about">ABOUT</a>
-            <a href="#hobby">HOBBY</a>
-            <a href="#github">GITHUB</a>
+            <a href="#about">自己紹介</a>
+            <a href="#hobby">趣味</a>
+            <a href="#github">GitHub</a>
         </div>
-
-        <a href="#github" class="nav-contact">MY LINK ↗</a>
     </nav>
 
     <main>
-
         <!-- メインビジュアル -->
         <section class="hero" id="home">
 
-            
-                <!-- 森の背景レイヤー -->
-                <div class="hero-background"></div>
-                
-                <!-- 奥行きを作る森 -->
-                <div class="forest-layer depth-back"></div>
-                <div class="forest-layer depth-middle"></div>
-                <div class="forest-layer depth-front"></div>
-                
-                <!-- 木漏れ日 -->
-                <div class="forest-light"></div>
-                
-                <!-- 流れる霧 -->
-                <div class="fog-layer fog-one"></div>
-                <div class="fog-layer fog-two"></div>
-                <div class="fog-layer fog-three"></div>
-                
-                <!-- 暗いオーバーレイ -->
-                <div class="hero-overlay"></div>
-            <div class="daylight-tint"></div>
+            <div class="hero-background"></div>
+            <div class="forest-layer depth-back"></div>
+            <div class="forest-layer depth-middle"></div>
+            <div class="forest-layer depth-front"></div>
 
+            <div class="forest-light"></div>
+
+            <div class="fog-layer fog-one"></div>
+            <div class="fog-layer fog-two"></div>
+            <div class="fog-layer fog-three"></div>
+
+            <div class="hero-overlay"></div>
 
             <div class="hero-content">
+                <p class="hero-label">自己紹介ページ</p>
 
-                <div class="availability">
-                    <span class="status-dot"></span>
-                    STUDENT / PROGRAMMING
-                </div>
-
-                <p class="hero-small">WELCOME TO MY WORLD</p>
-
-                <h1>
-                    IWAMOTO<br>
-                    <span>YUSEI.</span>
-                </h1>
+                <h1>岩元 優征</h1>
 
                 <p class="hero-description">
-                    Technology, Creativity & Nature.
-                    <br>
-                    新しい技術と可能性を探求する。
+                    プログラミングとXR技術に興味があります。<br>
+                    ゲームや読書、映画を楽しみながら、<br>
+                    新しいことに挑戦しています。
                 </p>
 
-                <a href="#about" class="primary-button">
-                    DISCOVER MORE <span>↓</span>
+                <a href="#about" class="scroll-button">
+                    下へスクロール
+                    <span>↓</span>
                 </a>
-
             </div>
 
             <div class="hero-caption">
-                FIND YOUR OWN PATH.
+                静かな森の中で、ゆっくりと。
             </div>
-
-            <div class="hero-bottom">
-                <span>SCROLL TO EXPLORE</span>
-                <div class="scroll-line"></div>
-            </div>
-
-            <div class="hero-number">01</div>
 
         </section>
-
 
         <!-- 自己紹介 -->
-        <section class="content-section reveal" id="about">
-
-            <div class="section-heading">
-                <span class="section-label">01 — ABOUT ME</span>
-                <h2>自己紹介<span>.</span></h2>
-                <p>自分について</p>
+        <section class="content-section about-section" id="about">
+            <div class="section-heading reveal">
+                <p class="section-label">ABOUT</p>
+                <h2>自己紹介</h2>
+                <p class="section-subtitle">
+                    私について
+                </p>
             </div>
 
-            <div class="about-layout">
+            <div class="about-text reveal">
+                <p>
+                    こんにちは。岩元優征です。
+                </p>
+                <p>
+                    現在、プログラミングを勉強しています。
+                    特にXR技術に興味があり、現実と仮想空間が
+                    組み合わさる新しい体験に魅力を感じています。
+                </p>
+                <p>
+                    ゲームも幅広いジャンルで遊んでいます。
+                    新しい技術や面白いものに触れながら、
+                    自分のできることを増やしていきたいです。
+                </p>
+            </div>
 
-                <div class="about-main">
-                    <p class="about-greeting">Nice to meet you.</p>
-
-                    <h3>
-                        こんにちは。<br>
-                        岩元優征です。
-                    </h3>
-
-                    <p class="about-description">
-                        プログラミングを勉強しています。<br>
-                        XR技術に興味があります。<br>
-                        ゲームを幅広いジャンルで遊んでいます。<br>
-                        ぜひ一緒に遊びましょう。
+            <div class="info-grid">
+                <article class="info-card reveal">
+                    <div class="card-icon">⌨</div>
+                    <h3>プログラミング</h3>
+                    <p>
+                        Pythonなどを使って、
+                        ゲームやプログラムの制作に挑戦しています。
                     </p>
-                </div>
+                </article>
 
-                <div class="about-side">
+                <article class="info-card reveal">
+                    <div class="card-icon">◇</div>
+                    <h3>XR技術</h3>
+                    <p>
+                        VR・ARなど、
+                        新しい空間体験を生み出す技術に興味があります。
+                    </p>
+                </article>
 
-                    <div class="info-box">
-                        <span>01</span>
-                        <div>
-                            <h4>PROGRAMMING</h4>
-                            <p>プログラミングを学習中</p>
-                        </div>
-                    </div>
-
-                    <div class="info-box">
-                        <span>02</span>
-                        <div>
-                            <h4>XR TECHNOLOGY</h4>
-                            <p>XRの未来に興味があります</p>
-                        </div>
-                    </div>
-
-                    <div class="info-box">
-                        <span>03</span>
-                        <div>
-                            <h4>GAMING</h4>
-                            <p>様々なジャンルのゲームが好き</p>
-                        </div>
-                    </div>
-
-                </div>
-
+                <article class="info-card reveal">
+                    <div class="card-icon">🎮</div>
+                    <h3>ゲーム</h3>
+                    <p>
+                        FPSやRTSをはじめ、
+                        さまざまなジャンルのゲームを遊びます。
+                    </p>
+                </article>
             </div>
         </section>
 
-
         <!-- 趣味 -->
-        <section class="content-section hobby-section reveal" id="hobby">
-
-            <div class="section-heading">
-                <span class="section-label">02 — MY INTERESTS</span>
-                <h2>趣味・好きなこと<span>.</span></h2>
-                <p>好きなこと、夢中になれること</p>
+        <section class="content-section hobby-section" id="hobby">
+            <div class="section-heading reveal">
+                <p class="section-label">HOBBY</p>
+                <h2>趣味</h2>
+                <p class="section-subtitle">
+                    好きなこと、楽しんでいること
+                </p>
             </div>
 
             <div class="hobby-grid">
 
-                <article class="hobby-card">
-                    <div class="hobby-top">
-                        <span>01 / PLAY</span>
-                        <span class="hobby-icon">🎮</span>
+                <article class="hobby-card reveal">
+                    <div class="hobby-image game-image"></div>
+                    <div class="hobby-content">
+                        <span class="hobby-number">01</span>
+                        <h3>ゲーム</h3>
+                        <p>
+                            FPSやRTSなど、幅広いジャンルを遊びます。
+                            戦略を考えたり、仲間と協力したりすることが好きです。
+                        </p>
                     </div>
-                    <h3>GAME</h3>
-                    <p>
-                        FPSやRTSなど、幅広いジャンルの
-                        ゲームを遊んでいます。
-                    </p>
-                    <div class="card-line"></div>
                 </article>
 
-                <article class="hobby-card">
-                    <div class="hobby-top">
-                        <span>02 / READ</span>
-                        <span class="hobby-icon">📚</span>
+                <article class="hobby-card reveal">
+                    <div class="hobby-image book-image"></div>
+                    <div class="hobby-content">
+                        <span class="hobby-number">02</span>
+                        <h3>読書</h3>
+                        <p>
+                            主にミステリー小説を読みます。
+                            物語の謎を考えながら読み進める時間が好きです。
+                        </p>
                     </div>
-                    <h3>READING</h3>
-                    <p>
-                        主にミステリー小説を読んでいます。
-                        物語の世界に入り込む時間が好きです。
-                    </p>
-                    <div class="card-line"></div>
                 </article>
 
-                <article class="hobby-card">
-                    <div class="hobby-top">
-                        <span>03 / WATCH</span>
-                        <span class="hobby-icon">🎬</span>
+                <article class="hobby-card reveal">
+                    <div class="hobby-image movie-image"></div>
+                    <div class="hobby-content">
+                        <span class="hobby-number">03</span>
+                        <h3>映画鑑賞</h3>
+                        <p>
+                            MARVEL作品やプレデターシリーズなど、
+                            アクションやSF映画をよく観ます。
+                        </p>
                     </div>
-                    <h3>MOVIES</h3>
-                    <p>
-                        最近はMARVELや
-                        プレデターシリーズを鑑賞しています。
-                    </p>
-                    <div class="card-line"></div>
                 </article>
 
             </div>
         </section>
-
 
         <!-- GitHub -->
-        <section class="content-section reveal" id="github">
-
-            <div class="section-heading">
-                <span class="section-label">03 — MY ACTIVITY</span>
-                <h2>GitHub<span>.</span></h2>
-                <p>プログラミングの活動</p>
-            </div>
-
-            <div class="github-card">
-
-                <div class="github-decoration">G</div>
-
-                <div class="github-content">
-                    <p class="github-label">LET'S CONNECT</p>
-
-                    <h3>
-                        Explore my<br>
-                        projects.
-                    </h3>
-
-                    <p>
-                        これまでの活動やプログラミングの
-                        プロジェクトはこちらから。
-                    </p>
-
-                    <a
-                        href="https://github.com/iwamotoyusei1898-ran"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        class="github-button"
-                    >
-                        GitHubプロフィールを見る ↗
-                    </a>
-                </div>
-
+        <section class="content-section github-section" id="github">
+            <div class="github-card reveal">
+                <p class="section-label">制作物・活動</p>
+                <h2>GitHub</h2>
+                <p>
+                    制作したプログラムや、
+                    学習の記録を公開しています。
+                </p>
+                <a
+                    href="https://github.com/iwamotoyusei1898-ran"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="github-link"
+                >
+                    GitHubを見る ↗
+                </a>
             </div>
         </section>
-
     </main>
 
-
-    <!-- フッター -->
     <footer>
-        <a href="#home" class="footer-logo">YUSEI.</a>
-        <p>© 2026 IWAMOTO YUSEI</p>
-        <p>TAKE YOUR OWN PATH.</p>
+        <p>© 2026 岩元優征</p>
     </footer>
 
-    <script src="script.js"></script>
+    <canvas id="fireflies" aria-hidden="true"></canvas>
 
+    <script src="script.js"></script>
 </body>
 </html>
