@@ -1,95 +1,458 @@
-body 
-{
-    background-color: #f5f5f5;
-    color: #333333;
+
+/* =========================
+   基本設定
+========================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+}
+
+body {
+    background: #080b16;
+    color: #ffffff;
     font-family: "Yu Gothic", sans-serif;
-    margin: 40px;
     line-height: 1.8;
+    overflow-x: hidden;
 }
 
-h1 
-{
-    background-color: #4e342e;
-    color: white;
-    padding: 15px;
-    border-radius: 8px;
-    text-align: center;
+/* 背景パーティクル */
+
+#particles {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -2;
+    pointer-events: none;
 }
 
-h2 
-{
-    color: #4e342e;
-    border-left: 5px solid #8d6e63;
-    padding-left: 10px;
-    margin-top: 30px;
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background:
+        radial-gradient(circle at 20% 30%, #14285c55, transparent 40%),
+        radial-gradient(circle at 80% 70%, #511d6b44, transparent 40%);
+    z-index: -3;
+    pointer-events: none;
 }
 
-p 
-{
-    background-color: white;
-    padding: 15px;
-    border-radius: 8px;
+/* マウス追従の光 */
+
+.cursor-glow {
+    position: fixed;
+    width: 350px;
+    height: 350px;
+    border-radius: 50%;
+    background: radial-gradient(
+        circle,
+        #00d9ff18,
+        #7b2cff0a,
+        transparent 70%
+    );
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    z-index: -1;
+    left: 50%;
+    top: 50%;
 }
 
-ul 
-{
-    background-color: white;
-    padding: 20px 40px;
-    border-radius: 8px;
+/* =========================
+   ナビゲーション
+========================= */
+
+.navigation {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    padding: 15px 8%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 30px;
+    background: #080b16bb;
+    backdrop-filter: blur(15px);
+    border-bottom: 1px solid #ffffff15;
+    z-index: 100;
 }
 
-a 
-{
-    color: #6d4c41;
-    text-decoration: none;
+.logo {
+    margin-right: auto;
+    font-size: 24px;
     font-weight: bold;
+    letter-spacing: 3px;
 }
 
-a:hover
-{
-    color: #3e2723;
-    text-decoration: underline;
+.logo span {
+    color: #00d9ff;
 }
+
+.navigation a {
+    color: #ccccdd;
+    text-decoration: none;
+    font-size: 13px;
+    letter-spacing: 2px;
+    transition: 0.3s;
+}
+
+.navigation a:hover {
+    color: #00d9ff;
+    text-shadow: 0 0 15px #00d9ff;
+}
+
+/* =========================
+   メイン画面
+========================= */
+
+.hero {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    position: relative;
+    padding: 100px 20px;
+}
+
+.hero-content {
+    animation: heroEnter 1.5s ease forwards;
+}
+
+.hero-subtitle {
+    color: #00d9ff;
+    letter-spacing: 6px;
+    font-size: 13px;
+    margin-bottom: 20px;
+}
+
+.hero h1 {
+    font-size: clamp(65px, 12vw, 130px);
+    line-height: 1.05;
+    letter-spacing: 8px;
+    font-weight: 900;
+}
+
+.hero h1 span {
+    color: transparent;
+    -webkit-text-stroke: 2px #00d9ff;
+    text-shadow: 0 0 30px #00d9ff55;
+}
+
+.hero-description {
+    margin: 30px 0;
+    color: #aab4d0;
+    letter-spacing: 3px;
+}
+
+.hero-button {
+    display: inline-block;
+    padding: 13px 30px;
+    border: 1px solid #00d9ff;
+    border-radius: 30px;
+    color: #00d9ff;
+    text-decoration: none;
+    letter-spacing: 2px;
+    transition: 0.4s;
+}
+
+.hero-button:hover {
+    background: #00d9ff;
+    color: #080b16;
+    box-shadow: 0 0 30px #00d9ff99;
+    transform: scale(1.05);
+}
+
+.scroll-indicator {
+    position: absolute;
+    bottom: 30px;
+    color: #78849f;
+    font-size: 11px;
+    letter-spacing: 3px;
+}
+
+.scroll-indicator span {
+    display: block;
+    width: 1px;
+    height: 45px;
+    background: #00d9ff;
+    margin: 10px auto 0;
+    animation: scrollLine 1.5s infinite;
+}
+
+/* =========================
+   セクション
+========================= */
+
+.section {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 120px 30px;
+}
+
+.section-number {
+    color: #00d9ff;
+    letter-spacing: 4px;
+    font-size: 12px;
+    margin-bottom: 10px;
+}
+
+.section h2 {
+    font-size: 38px;
+    margin-bottom: 40px;
+    padding-left: 20px;
+    border-left: 4px solid #00d9ff;
+    text-shadow: 0 0 20px #00d9ff33;
+}
+
+/* =========================
+   ガラスカード
+========================= */
+
+.glass-card {
+    background: linear-gradient(
+        135deg,
+        #ffffff12,
+        #ffffff04
+    );
+    border: 1px solid #ffffff20;
+    border-radius: 18px;
+    backdrop-filter: blur(15px);
+    box-shadow: 0 10px 40px #00000033;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.profile-card {
+    padding: 40px;
+}
+
+.profile-card h3 {
+    font-size: 23px;
+    margin-bottom: 20px;
+    color: #00d9ff;
+}
+
+.profile-card p {
+    color: #c4cbe0;
+    line-height: 2.5;
+}
+
+/* タグ */
+
+.tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 25px;
+}
+
+.tags span {
+    padding: 6px 15px;
+    border: 1px solid #00d9ff66;
+    border-radius: 20px;
+    color: #00d9ff;
+    font-size: 11px;
+    letter-spacing: 1px;
+}
+
+/* =========================
+   趣味カード
+========================= */
+
+.hobby-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+}
+
+.hobby-card {
+    padding: 35px 25px;
+    position: relative;
+    overflow: hidden;
+    min-height: 260px;
+    transform-style: preserve-3d;
+}
+
+.hobby-card:hover {
+    border-color: #00d9ff;
+    box-shadow: 0 10px 40px #00d9ff22;
+}
+
+.hobby-icon {
+    font-size: 45px;
+    margin-bottom: 15px;
+}
+
+.hobby-card h3 {
+    color: #00d9ff;
+    letter-spacing: 3px;
+    margin-bottom: 15px;
+}
+
+.hobby-card p {
+    color: #b8c0d8;
+    font-size: 14px;
+}
+
+.card-number {
+    position: absolute;
+    right: 15px;
+    bottom: -25px;
+    font-size: 90px;
+    font-weight: bold;
+    color: #ffffff08;
+}
+
+/* =========================
+   GitHub
+========================= */
+
+.github-card {
+    text-align: center;
+    padding: 60px 20px;
+}
+
+.github-icon {
+    font-size: 65px;
+    color: #00d9ff;
+    margin-bottom: 15px;
+}
+
+.github-card h3 {
+    letter-spacing: 4px;
+    margin-bottom: 15px;
+}
+
+.github-card p {
+    color: #aab4d0;
+    margin-bottom: 30px;
+}
+
+.github-button {
+    display: inline-block;
+    padding: 14px 35px;
+    border-radius: 30px;
+    background: linear-gradient(90deg, #006eff, #8a2cff);
+    color: white;
+    text-decoration: none;
+    transition: 0.4s;
+}
+
+.github-button:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0 30px #664cffaa;
+}
+
+/* =========================
+   スクロールアニメーション
+========================= */
 
 .fade-in {
-  opacity: 0;
-  transform: translateY(50px);
-  transition: all 1s;
+    opacity: 0;
+    transform: translateY(70px);
+    transition: opacity 1s ease, transform 1s ease;
 }
 
-.fade-in.show 
-{
-  opacity: 1;
-  transform: translateY(0);
+.fade-in.show {
+    opacity: 1;
+    transform: translateY(0);
 }
 
-button {
-  transition: 0.2s;
+/* =========================
+   フッター
+========================= */
+
+footer {
+    padding: 40px 20px;
+    text-align: center;
+    border-top: 1px solid #ffffff15;
+    color: #69738f;
+    font-size: 11px;
+    letter-spacing: 3px;
 }
 
-button:active 
-{
-  transform: scale(0.95);
+/* =========================
+   キーフレーム
+========================= */
+
+@keyframes heroEnter {
+    from {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
-.card 
-{
-  transition: 0.3s;
+@keyframes scrollLine {
+    0%, 100% {
+        transform: scaleY(0.5);
+        opacity: 0.4;
+        transform-origin: top;
+    }
+    50% {
+        transform: scaleY(1);
+        opacity: 1;
+        transform-origin: top;
+    }
 }
 
-.card:hover 
-{
-  transform: translateY(-10px);
-  box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+/* =========================
+   スマートフォン対応
+========================= */
+
+@media (max-width: 750px) {
+    .navigation {
+        padding: 12px 15px;
+        gap: 12px;
+    }
+
+    .navigation a {
+        font-size: 10px;
+        letter-spacing: 0;
+    }
+
+    .logo {
+        font-size: 18px;
+        letter-spacing: 1px;
+    }
+
+    .hobby-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .section {
+        padding: 85px 20px;
+    }
+
+    .section h2 {
+        font-size: 30px;
+    }
+
+    .profile-card {
+        padding: 25px;
+    }
+
+    .cursor-glow {
+        display: none;
+    }
 }
 
-.card 
-{
-  transition: 0.3s;
+/* 動きを抑える設定 */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        scroll-behavior: auto !important;
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+    }
+
+    .fade-in {
+        opacity: 1;
+        transform: none;
+    }
 }
 
-.card:hover 
-{
-  transform: translateY(-10px);
-  box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-}
